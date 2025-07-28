@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const tasks = formData.getAll('tasks');
         const familiarity = formData.get('familiarity');
         const favorites = formData.get('favorites');
-        const tools = formData.getAll('tools');
         // Derive prompt level from familiarity
         const promptLevel = familiarityMapping[familiarity] || 'Basic';
         // Normalize tasks to dataset categories

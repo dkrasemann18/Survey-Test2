@@ -42,16 +42,18 @@
             <!-- Step 2: S&T offering -->
             <div class="step" id="step-2">
                 <h2>Your offering</h2>
-                <p>What is your S&amp;T offering? (Select all that apply)</p>
-                <div class="options multi">
-                    <label><input type="checkbox" name="offering" value="Strategy" /> Strategy</label>
-                    <label><input type="checkbox" name="offering" value="Valuation and Modeling" /> Valuation&nbsp;and&nbsp;Modeling</label>
-                    <label><input type="checkbox" name="offering" value="Infrastructure & Real Estate" /> Infrastructure&nbsp;&amp;&nbsp;Real&nbsp;Estate</label>
-                    <label><input type="checkbox" name="offering" value="M&A" /> M&amp;A</label>
-                    <label><input type="checkbox" name="offering" value="Performance Improvement & Restructuring" /> Performance&nbsp;Improvement&nbsp;&amp;&nbsp;Restructuring</label>
-                    <label><input type="checkbox" name="offering" value="Sustainability Strategy" /> Sustainability&nbsp;Strategy</label>
-                    <label><input type="checkbox" name="offering" value="Sustainability, Infrastructure, Real Estate, and Resilience" /> Sustainability,&nbsp;Infrastructure,&nbsp;Real&nbsp;Estate,&nbsp;and&nbsp;Resilience</label>
-                    <label><input type="checkbox" name="offering" value="Operations Transformation" /> Operations&nbsp;Transformation</label>
+                <p>What is your S&amp;T offering?</p>
+                <!-- Single‑select offering using radio buttons -->
+                <div class="options">
+                    <!-- Adding required to the first radio ensures one option must be selected -->
+                    <label><input type="radio" name="offering" value="Strategy" required /> Strategy</label>
+                    <label><input type="radio" name="offering" value="Valuation and Modeling" /> Valuation&nbsp;and&nbsp;Modeling</label>
+                    <label><input type="radio" name="offering" value="Infrastructure & Real Estate" /> Infrastructure&nbsp;&amp;&nbsp;Real&nbsp;Estate</label>
+                    <label><input type="radio" name="offering" value="M&A" /> M&amp;A</label>
+                    <label><input type="radio" name="offering" value="Performance Improvement & Restructuring" /> Performance&nbsp;Improvement&nbsp;&amp;&nbsp;Restructuring</label>
+                    <label><input type="radio" name="offering" value="Sustainability Strategy" /> Sustainability&nbsp;Strategy</label>
+                    <label><input type="radio" name="offering" value="Sustainability, Infrastructure, Real Estate, and Resilience" /> Sustainability,&nbsp;Infrastructure,&nbsp;Real&nbsp;Estate,&nbsp;and&nbsp;Resilience</label>
+                    <label><input type="radio" name="offering" value="Operations Transformation" /> Operations&nbsp;Transformation</label>
                 </div>
             </div>
             <!-- Step 3: Tasks -->
@@ -89,23 +91,8 @@
                     <textarea name="favorites" id="favorites" placeholder="Type your favorite prompts here..." rows="4"></textarea>
                 </div>
             </div>
-            <!-- Step 6: Tools -->
+            <!-- Results step (Step 6) -->
             <div class="step" id="step-6">
-                <h2>Your tools</h2>
-                <p>What tools do you regularly use in your work? (Select all that apply)</p>
-                <div class="options multi">
-                    <label><input type="checkbox" name="tools" value="PowerPoint" /> PowerPoint</label>
-                    <label><input type="checkbox" name="tools" value="Excel" /> Excel</label>
-                    <label><input type="checkbox" name="tools" value="Word" /> Word</label>
-                    <label><input type="checkbox" name="tools" value="Outlook" /> Outlook</label>
-                    <label><input type="checkbox" name="tools" value="Teams" /> Teams</label>
-                    <label><input type="checkbox" name="tools" value="Miro / MURAL" /> Miro&nbsp;/&nbsp;MURAL</label>
-                    <label><input type="checkbox" name="tools" value="Tableau" /> Tableau</label>
-                    <label><input type="checkbox" name="tools" value="Coding tools" /> Coding tools</label>
-                </div>
-            </div>
-            <!-- Results step (Step 7) -->
-            <div class="step" id="step-7">
                 <h2>Your recommended prompts</h2>
                 <div id="results-container"></div>
                 <div class="download">
