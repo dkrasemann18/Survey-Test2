@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S&amp;T Gen&nbsp;AI Survey</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="form-wrapper">
+        <!-- Progress bar -->
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <!-- Survey form -->
+        <form id="survey-form">
+            <!-- Step 0: Name and email -->
+            <div class="step" id="step-0">
+                <h2>Tell us about you</h2>
+                <div class="form-group">
+                    <label for="name">What is your name?</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">What is your email?</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+            </div>
+            <!-- Step 1: Level -->
+            <div class="step" id="step-1">
+                <h2>Your role level</h2>
+                <p>What is your level?</p>
+                <div class="options">
+                    <label><input type="radio" name="level" value="Analyst" required /> Analyst</label>
+                    <label><input type="radio" name="level" value="Consultant" /> Consultant</label>
+                    <label><input type="radio" name="level" value="Senior Consultant" /> Senior&nbsp;Consultant</label>
+                    <label><input type="radio" name="level" value="Manager" /> Manager</label>
+                    <label><input type="radio" name="level" value="Senior Manager" /> Senior&nbsp;Manager</label>
+                    <label><input type="radio" name="level" value="PMD" /> PMD</label>
+                </div>
+            </div>
+            <!-- Step 2: S&T offering -->
+            <div class="step" id="step-2">
+                <h2>Your offering</h2>
+                <p>What is your S&amp;T offering? (Select all that apply)</p>
+                <div class="options multi">
+                    <label><input type="checkbox" name="offering" value="Strategy" /> Strategy</label>
+                    <label><input type="checkbox" name="offering" value="Valuation and Modeling" /> Valuation&nbsp;and&nbsp;Modeling</label>
+                    <label><input type="checkbox" name="offering" value="Infrastructure & Real Estate" /> Infrastructure&nbsp;&amp;&nbsp;Real&nbsp;Estate</label>
+                    <label><input type="checkbox" name="offering" value="M&A" /> M&amp;A</label>
+                    <label><input type="checkbox" name="offering" value="Performance Improvement & Restructuring" /> Performance&nbsp;Improvement&nbsp;&amp;&nbsp;Restructuring</label>
+                    <label><input type="checkbox" name="offering" value="Sustainability Strategy" /> Sustainability&nbsp;Strategy</label>
+                    <label><input type="checkbox" name="offering" value="Sustainability, Infrastructure, Real Estate, and Resilience" /> Sustainability,&nbsp;Infrastructure,&nbsp;Real&nbsp;Estate,&nbsp;and&nbsp;Resilience</label>
+                    <label><input type="checkbox" name="offering" value="Operations Transformation" /> Operations&nbsp;Transformation</label>
+                </div>
+            </div>
+            <!-- Step 3: Tasks -->
+            <div class="step" id="step-3">
+                <h2>Your day-to-day tasks</h2>
+                <p>What are your typical day‑to‑day tasks? (Select all that apply)</p>
+                <div class="options multi">
+                    <label><input type="checkbox" name="tasks" value="Research & Analysis" /> Research &amp; Analysis</label>
+                    <label><input type="checkbox" name="tasks" value="Brainstorming / Ideation" /> Brainstorming&nbsp;/&nbsp;Ideation</label>
+                    <label><input type="checkbox" name="tasks" value="Drafting & Writing" /> Drafting&nbsp;&amp;&nbsp;Writing (e.g.&nbsp;POVs, memos, storyline)</label>
+                    <label><input type="checkbox" name="tasks" value="Summarizing / Synthesizing Large Documents or Data" /> Summarizing&nbsp;/&nbsp;Synthesizing Large Documents or Data</label>
+                    <label><input type="checkbox" name="tasks" value="Slide Creation / Visual Storytelling" /> Slide&nbsp;Creation&nbsp;/&nbsp;Visual&nbsp;Storytelling</label>
+                    <label><input type="checkbox" name="tasks" value="Competitive Intelligence / Market Scanning" /> Competitive&nbsp;Intelligence&nbsp;/&nbsp;Market&nbsp;Scanning</label>
+                    <label><input type="checkbox" name="tasks" value="Financial Modelling / Excel Analysis" /> Financial&nbsp;Modelling&nbsp;/&nbsp;Excel&nbsp;Analysis</label>
+                    <label><input type="checkbox" name="tasks" value="Interview / Discussion Guide Development" /> Interview&nbsp;/&nbsp;Discussion&nbsp;Guide&nbsp;Development</label>
+                    <label><input type="checkbox" name="tasks" value="Proposal / Pursuit Support" /> Proposal&nbsp;/&nbsp;Pursuit&nbsp;Support</label>
+                    <label><input type="checkbox" name="tasks" value="Project Management / Planning" /> Project&nbsp;Management&nbsp;/&nbsp;Planning</label>
+                </div>
+            </div>
+            <!-- Step 4: Familiarity -->
+            <div class="step" id="step-4">
+                <h2>AI familiarity</h2>
+                <p>Familiarity with AI?</p>
+                <div class="options">
+                    <label><input type="radio" name="familiarity" value="High" required /> High&nbsp;– I use them often and creatively</label>
+                    <label><input type="radio" name="familiarity" value="Medium" /> Medium&nbsp;– I use them sometimes, mainly for specific tasks</label>
+                    <label><input type="radio" name="familiarity" value="Low" /> Low&nbsp;– I'm just getting started or haven't used them much</label>
+                </div>
+            </div>
+            <!-- Step 5: Favorite prompts -->
+            <div class="step" id="step-5">
+                <h2>Share your favorite prompts</h2>
+                <p>What are your favorite Gen&nbsp;AI prompts you'd like to share with others?</p>
+                <div class="form-group">
+                    <textarea name="favorites" id="favorites" placeholder="Type your favorite prompts here..." rows="4"></textarea>
+                </div>
+            </div>
+            <!-- Step 6: Tools -->
+            <div class="step" id="step-6">
+                <h2>Your tools</h2>
+                <p>What tools do you regularly use in your work? (Select all that apply)</p>
+                <div class="options multi">
+                    <label><input type="checkbox" name="tools" value="PowerPoint" /> PowerPoint</label>
+                    <label><input type="checkbox" name="tools" value="Excel" /> Excel</label>
+                    <label><input type="checkbox" name="tools" value="Word" /> Word</label>
+                    <label><input type="checkbox" name="tools" value="Outlook" /> Outlook</label>
+                    <label><input type="checkbox" name="tools" value="Teams" /> Teams</label>
+                    <label><input type="checkbox" name="tools" value="Miro / MURAL" /> Miro&nbsp;/&nbsp;MURAL</label>
+                    <label><input type="checkbox" name="tools" value="Tableau" /> Tableau</label>
+                    <label><input type="checkbox" name="tools" value="Coding tools" /> Coding tools</label>
+                </div>
+            </div>
+            <!-- Results step (Step 7) -->
+            <div class="step" id="step-7">
+                <h2>Your recommended prompts</h2>
+                <div id="results-container"></div>
+                <div class="download">
+                    <button type="button" id="downloadBtn">Download Prompts</button>
+                </div>
+            </div>
+            <!-- Navigation buttons -->
+            <div class="navigation">
+                <button type="button" id="prevBtn" class="nav-button">Back</button>
+                <button type="button" id="nextBtn" class="nav-button primary">Next</button>
+            </div>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
