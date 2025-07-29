@@ -1,6 +1,6 @@
 // script.js – handles survey flow and prompt recommendation logic
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const steps = document.querySelectorAll('.step');
     const progress = document.getElementById('progress');
     const prevBtn = document.getElementById('prevBtn');
@@ -148,33 +148,42 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Setup download button – include grouping and summary
+        // Setup download button – create a Word document (.doc) with the responses and grouped prompts
         const downloadBtn = document.getElementById('downloadBtn');
         downloadBtn.onclick = () => {
-            let content = '';
-            content += `Name: ${name || ''}\n`;
-            content += `Email: ${email || ''}\n`;
-            content += `S\u0026T Offering: ${offering || ''}\n`;
-            content += `Level: ${level || ''}\n`;
-            content += `AI Familiarity: ${familiarity || ''}\n`;
-            content += `Tasks: ${tasks.join(', ') || ''}\n\n`;
-            content += `Respondents who are at ${level} Level from ${offering} Offering benefit from the following prompts:\n\n`;
+            // Build the HTML body content for the Word document
+            let bodyHtml = '';
+            bodyHtml += `<p><strong>Name:</strong> ${name || ''}</p>`;
+            bodyHtml += `<p><strong>Email:</strong> ${email || ''}</p>`;
+            bodyHtml += `<p><strong>S&amp;T Offering:</strong> ${offering || ''}</p>`;
+            bodyHtml += `<p><strong>Level:</strong> ${level || ''}</p>`;
+            bodyHtml += `<p><strong>AI Familiarity:</strong> ${familiarity || ''}</p>`;
+            bodyHtml += `<p><strong>Tasks:</strong> ${tasks.join(', ') || ''}</p>`;
+            bodyHtml += `<p>Respondents who are at ${level} Level from ${offering} Offering benefit from the following prompts:</p>`;
             if (Object.keys(grouped).length === 0) {
-                content += 'No prompts matched your selections.';
+                bodyHtml += `<p>No prompts matched your selections.</p>`;
             } else {
                 Object.keys(grouped).sort().forEach(category => {
-                    content += `${category}:\n`;
+                    bodyHtml += `<h3>${category}</h3>`;
+                    bodyHtml += '<ul>';
                     Array.from(grouped[category]).sort().forEach(promptText => {
-                        content += ` - ${promptText}\n`;
+                        bodyHtml += `<li>${promptText}</li>`;
                     });
-                    content += '\n';
+                    bodyHtml += '</ul>';
                 });
             }
-            const blob = new Blob([content], { type: 'text/plain' });
+            // Word document preamble for Office compatibility
+            const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                "xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Recommended Prompts</title></head><body>";
+            const postHtml = "</body></html>";
+            const html = preHtml + bodyHtml + postHtml;
+            // Create a blob with the Word MIME type
+            const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'recommended_prompts.txt';
+            link.download = 'recommended_prompts.doc';
             link.style.display = 'none';
             document.body.appendChild(link);
             link.click();
@@ -217,15 +226,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Fetch prompts.json file
-    fetch('prompts.json')
-        .then(response => response.json())
-        .then(data => {
-            promptsData = data;
-        })
-        .catch(err => {
-            console.error('Error loading prompts:', err);
-        });
+    // Fetch prompts.json file synchronously at startup to ensure data is available when the user submits
+    try {
+        const response = await fetch('prompts.json');
+        promptsData = await response.json();
+    } catch (err) {
+        console.error('Error loading prompts:', err);
+        promptsData = [];
+    }
 
     // Initialize first step
     showStep(currentStep);
