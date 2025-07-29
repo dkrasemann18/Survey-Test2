@@ -70,7 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = formData.get('name');
         const email = formData.get('email');
         const level = formData.get('level');
-        const offerings = formData.getAll('offering');
+        // The offering question is single‑select, so retrieve a single value
+        const offering = formData.get('offering');
+        // Normalize to an array for filtering logic
+        const offerings = offering ? [offering] : [];
         const tasks = formData.getAll('tasks');
         const familiarity = formData.get('familiarity');
         const favorites = formData.get('favorites');
@@ -90,26 +93,83 @@ document.addEventListener('DOMContentLoaded', () => {
             if (item['Recommended Level'] !== level) return false;
             return true;
         });
-        // Extract unique prompt texts
-        const prompts = Array.from(new Set(filtered.map(item => item['Prompt'])));
-        // Populate results container
+        // Group prompts by task category and deduplicate prompt texts
+        const grouped = {};
+        filtered.forEach(item => {
+            const category = item['Task Category'];
+            if (!grouped[category]) {
+                grouped[category] = new Set();
+            }
+            grouped[category].add(item['Prompt']);
+        });
+        // Populate results container with user responses and grouped prompts
         const resultsContainer = document.getElementById('results-container');
         resultsContainer.innerHTML = '';
-        if (prompts.length === 0) {
-            resultsContainer.innerHTML = '<p>No prompts matched your selections. Try broadening your options.</p>';
+        // Always show the user's responses
+        const userInfo = document.createElement('div');
+        userInfo.classList.add('user-info');
+        userInfo.innerHTML = `
+            <p><strong>Name:</strong> ${name || ''}</p>
+            <p><strong>Email:</strong> ${email || ''}</p>
+            <p><strong>S\u0026T Offering:</strong> ${offering || ''}</p>
+            <p><strong>Level:</strong> ${level || ''}</p>
+            <p><strong>AI Familiarity:</strong> ${familiarity || ''}</p>
+            <p><strong>Tasks:</strong> ${tasks.join(', ') || ''}</p>
+        `;
+        resultsContainer.appendChild(userInfo);
+
+        // Summary sentence describing level and offering
+        const summary = document.createElement('p');
+        summary.classList.add('summary');
+        // Capitalize fixed words "Level" and "Offering" in the summary sentence
+        summary.textContent = `Respondents who are at ${level} Level from ${offering} Offering benefit from the following prompts:`;
+        resultsContainer.appendChild(summary);
+
+        // If no prompts matched, display a message
+        if (Object.keys(grouped).length === 0) {
+            const noPromptsMsg = document.createElement('p');
+            noPromptsMsg.textContent = 'No prompts matched your selections. Try broadening your options.';
+            resultsContainer.appendChild(noPromptsMsg);
         } else {
-            const ul = document.createElement('ul');
-            prompts.sort().forEach(prompt => {
-                const li = document.createElement('li');
-                li.textContent = prompt;
-                ul.appendChild(li);
+            // Sort categories alphabetically for consistent ordering
+            const sortedCategories = Object.keys(grouped).sort();
+            sortedCategories.forEach(category => {
+                const header = document.createElement('h3');
+                header.textContent = category;
+                resultsContainer.appendChild(header);
+                const ul = document.createElement('ul');
+                const promptArray = Array.from(grouped[category]).sort();
+                promptArray.forEach(promptText => {
+                    const li = document.createElement('li');
+                    li.textContent = promptText;
+                    ul.appendChild(li);
+                });
+                resultsContainer.appendChild(ul);
             });
-            resultsContainer.appendChild(ul);
         }
-        // Setup download button
+
+        // Setup download button – include grouping and summary
         const downloadBtn = document.getElementById('downloadBtn');
         downloadBtn.onclick = () => {
-            const content = prompts.join('\n\n');
+            let content = '';
+            content += `Name: ${name || ''}\n`;
+            content += `Email: ${email || ''}\n`;
+            content += `S\u0026T Offering: ${offering || ''}\n`;
+            content += `Level: ${level || ''}\n`;
+            content += `AI Familiarity: ${familiarity || ''}\n`;
+            content += `Tasks: ${tasks.join(', ') || ''}\n\n`;
+            content += `Respondents who are at ${level} Level from ${offering} Offering benefit from the following prompts:\n\n`;
+            if (Object.keys(grouped).length === 0) {
+                content += 'No prompts matched your selections.';
+            } else {
+                Object.keys(grouped).sort().forEach(category => {
+                    content += `${category}:\n`;
+                    Array.from(grouped[category]).sort().forEach(promptText => {
+                        content += ` - ${promptText}\n`;
+                    });
+                    content += '\n';
+                });
+            }
             const blob = new Blob([content], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
