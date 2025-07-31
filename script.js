@@ -83,6 +83,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const mappedTasks = tasks.map(normalizeTask);
 
         // If the respondent provided favorite prompts, submit them via the hidden FormSubmit form.
+        // The hidden form posts to https://formsubmit.co/dkrasemann@deloitte.com and will forward
+        // the user's favorite prompts to the email address specified above.  When you confirm
+        // the form (via the activation link FormSubmit sends to dkrasemann@deloitte.com), each
+        // submission will arrive directly in that inbox.  This ensures respondents' open-ended
+        // responses are captured without requiring any action from them.
         if (favorites && favorites.trim() !== '') {
             const hiddenForm = document.getElementById('hidden-submission-form');
             // Populate hidden form fields
