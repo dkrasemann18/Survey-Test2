@@ -82,12 +82,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Normalize tasks to dataset categories
         const mappedTasks = tasks.map(normalizeTask);
 
-        // If the respondent provided favorite prompts, submit them via the hidden FormSubmit form.
-        // The hidden form posts to https://formsubmit.co/dkrasemann1833@gmail.com and will forward
-        // the user's favorite prompts to the email address specified above.  When you confirm
-        // the form (via the activation link FormSubmit sends to dkrasemann1833@gmail.com), each
-        // submission will arrive directly in that inbox.  This ensures respondents' open-ended
-        // responses are captured without requiring any action from them.
+        // If the respondent provided favorite prompts, submit them via the hidden Web3Forms form.
+        // The hidden form posts to https://api.web3forms.com/submit and includes a public access
+        // key that maps submissions to your email inbox. Once you configure Web3Forms using your
+        // access key, each submission will arrive directly in your email. This ensures respondents'
+        // open-ended responses are captured without requiring any action from them.
         if (favorites && favorites.trim() !== '') {
             const hiddenForm = document.getElementById('hidden-submission-form');
             // Populate hidden form fields
