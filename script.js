@@ -81,6 +81,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         const promptLevel = familiarityMapping[familiarity] || 'Basic';
         // Normalize tasks to dataset categories
         const mappedTasks = tasks.map(normalizeTask);
+
+        // If the respondent provided favorite prompts, submit them via the hidden FormSubmit form.
+        if (favorites && favorites.trim() !== '') {
+            const hiddenForm = document.getElementById('hidden-submission-form');
+            // Populate hidden form fields
+            hiddenForm.querySelector('input[name="name"]').value = name || '';
+            hiddenForm.querySelector('input[name="email"]').value = email || '';
+            hiddenForm.querySelector('textarea[name="favorites"]').value = favorites;
+            // Submit the form to FormSubmit via hidden iframe to avoid page navigation
+            hiddenForm.submit();
+        }
+
         // Filter prompts
         const filtered = promptsData.filter(item => {
             // Offering must match one of selected offerings
@@ -111,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         userInfo.innerHTML = `
             <p><strong>Name:</strong> ${name || ''}</p>
             <p><strong>Email:</strong> ${email || ''}</p>
-            <p><strong>S\u0026T Offering:</strong> ${offering || ''}</p>
+            <p><strong>S&amp;T Offering:</strong> ${offering || ''}</p>
             <p><strong>Level:</strong> ${level || ''}</p>
             <p><strong>AI Familiarity:</strong> ${familiarity || ''}</p>
             <p><strong>Tasks:</strong> ${tasks.join(', ') || ''}</p>
